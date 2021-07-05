@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load crispy_forms_filters %}
+
+    <h2>Create Application</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <button type="Submit" class='mt-4 btn btn-primary'>Create App</button>
+
+    </form>
+    <table class='table mb-0'>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>bundle id</th>
+            <th>app name</th>
+            <th>upload date</th>
+            <th>Detail</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for app in apps %}
+            <tr>
+                <td>{{ app.pk }}</td>
+                <td>{{ app.bundle_id }}</td>
+                <td>{{ app.app_name }}</td>
+                <td>{{ app.created_at | date:"d F Y" }}</td>
+                <td>
+                    {#                    <a href="{{ file.file_ipa.url }}" class='btn btn-primary btn-sm' target="blank">Download File</a>#}
+{#                    <a href="itms-services://?action=download-manifest&url=https://ios.spaceshare.vn/media/files/spaceshare.plist">#}
+{#                        Install#}
+{#                    </a>#}
+                    <a href="{% url 'versions' app.pk %}"> Detail </a>
+                </td>
+                <td>
+                    <form method="POST" action="{% url 'app-delete' app.pk %}">
+                        {% csrf_token %}
+                        <button class='btn btn-danger btn-sm'>Delete</button>
+                    </form>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

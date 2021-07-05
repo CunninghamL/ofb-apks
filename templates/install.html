@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load crispy_forms_filters %}
+
+    <h2>Install Application</h2>
+    <button class='mt-4 btn btn-primary' onclick="window.location.href='itms-services://?action=download-manifest&url=https://ios.spaceshare.vn/media/files/spaceshare.plist'">Install</button>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Application Version</h2>
+    {% load crispy_forms_filters %}
+
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <button type="Submit" class='mt-4 btn btn-primary'>Upload Version</button>
+
+    </form>
+
+    <table class='table mb-0'>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>Created at</th>
+            <th>Download</th>
+            <th>Version</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for version in versions_app %}
+            <tr>
+                <td>{{ version.pk }}</td>
+                <td>{{ version.created_at | date:"d F Y" }}</td>
+                <td>
+                    <a href="{% url 'install' version.pk %}">
+                        Install
+                    </a>
+                </td>
+                 <td>{{ version.pk }}</td>
+                <td>
+                    <form method="POST" action="{% url 'version-delete' version.pk %}">
+                        {% csrf_token %}
+                        <button class='btn btn-danger btn-sm'>Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
