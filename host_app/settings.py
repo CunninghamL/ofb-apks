@@ -15,9 +15,14 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
+from decouple import Config, RepositoryEnv
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+
+ENV_FILE = os.path.join(BASE_DIR, '.env/.development')
+env_config = Config(RepositoryEnv(ENV_FILE))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'tso*fcu4gprhw7y77@*(h51o$$(oly*^x4t1nmr1g%u3!!27)%'
@@ -79,11 +84,11 @@ WSGI_APPLICATION = 'host_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'host_app',
-        'USER': 'admin',
-        'PASSWORD': 'A12345678',
-        'HOST': '192.168.0.5',
-        'PORT': '5432',
+        'NAME': env_config('POSTGRES_DB'),
+        'USER': env_config('POSTGRES_USER'),
+        'PASSWORD': env_config('POSTGRES_PASSWORD'),
+        'HOST': env_config('DATABASE_HOST'),
+        'PORT': env_config('DATABASE_PORT'),
     }
 }
 

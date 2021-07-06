@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  fu-web:
+    build: .
+    container_name: file-upload-web
+    command: >
+      bash -c "./entry-point.sh && echo 'web app is up'"
+    restart: always
+    networks:
+      - file-upload
+    volumes:
+      - media_volume:/webapp/media
+    ports:
+      - 8112:8111
+    depends_on:
+      - fu-postgres
+
+  fu-postgres:
+    image: kartoza/postgis
+    container_name: file-upload-postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: file-upload
+      POSTGRES_USER: admin
+      POSTGRES_DB: file-upload
+      ALLOW_IP_RANGE: 0.0.0.0/0
+      DB_VENDOR: postgres
+      DESTROY_DATABASE_ON_RESTART: 'False'
+    ports:
+      - 5434:5432
+    volumes:
+      - pgdata:/var/lib/postgresql
+    networks:
+      - file-upload
+networks:
+  file-upload:
+    external: true
+volumes:
+  pgdata:
+  media_volume:
