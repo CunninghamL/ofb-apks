@@ -15,7 +15,16 @@ services:
       - 8112:8111
     depends_on:
       - fu-postgres
-
+  bo-nginx-beta:
+    container_name: bo-nginx-beta
+    build: ./nginx
+    restart: unless-stopped
+    depends_on:
+      - fu-web
+    ports:
+      - 8010:80
+    networks:
+      - file-upload
   fu-postgres:
     image: kartoza/postgis
     container_name: file-upload-postgres
