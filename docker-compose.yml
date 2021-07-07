@@ -1,28 +1,28 @@
 version: "3.7"
 
 services:
-#  ha-web:
-#    build: .
-#    container_name: hostapp-web
-#    command: >
-#      bash -c "./entry-point.sh && echo 'web app is up'"
-#    restart: always
-#    networks:
-#      - additional-beta
-#    volumes:
-#      - media_volume:/webapp/media
-#    depends_on:
-#      - ha-postgres
-#  ha-nginx-beta:
-#    container_name: hostapp-nginx-beta
-#    build: ./nginx
-#    restart: unless-stopped
-#    depends_on:
-#      - ha-web
-#    ports:
-#      - 8010:80
-#    networks:
-#      - additional-beta
+  ha-web:
+    build: .
+    container_name: hostapp-web
+    command: >
+      bash -c "./entry-point.sh && echo 'web app is up'"
+    restart: always
+    networks:
+      - additional-beta
+    volumes:
+      - media_volume:/webapp/media
+    depends_on:
+      - ha-postgres
+  ha-nginx-beta:
+    container_name: hostapp-nginx-beta
+    build: ./nginx
+    restart: unless-stopped
+    depends_on:
+      - ha-web
+    ports:
+      - 8010:80
+    networks:
+      - additional-beta
   ha-postgres:
     image: kartoza/postgis
     container_name: hostapp-postgres
