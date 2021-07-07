@@ -1,15 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Application Version</h2>
+    <h2>{{ versions_app.first.application }}</h2>
     {% load crispy_forms_filters %}
-
-
-{#    <form method="POST" enctype="multipart/form-data">#}
-{#        {% csrf_token %}#}
-{#        {{ form | crispy }}#}
-{#        <button type="Submit" class='mt-4 btn btn-primary'>Upload Version</button>#}
-{##}
-{#    </form>#}
 
     <table class='table mb-0'>
         <thead>
