@@ -15,6 +15,7 @@
             <th>id</th>
             <th>bundle id</th>
             <th>app name</th>
+            <th>app type</th>
             <th>upload date</th>
             <th>Detail</th>
             <th>Delete</th>
@@ -26,6 +27,7 @@
                 <td>{{ app.pk }}</td>
                 <td>{{ app.bundle_id }}</td>
                 <td>{{ app.app_name }}</td>
+                <td>{{ app.type }}</td>
                 <td>{{ app.created_at | date:"d F Y" }}</td>
                 <td>
                     {#                    <a href="{{ file.file_ipa.url }}" class='btn btn-primary btn-sm' target="blank">Download File</a>#}
