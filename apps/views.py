@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import FormView
+from django.views.generic import FormView, DetailView
 from django.views.generic import ListView, DeleteView
 
 from .form import CreateAppForm
@@ -8,7 +8,6 @@ from .models import *
 
 class AppsVersionView(ListView):
     model = VersionApp
-    fields = ('file',)
     template_name = 'app_versions.html'
     context_object_name = 'versions_app'
 
@@ -54,10 +53,17 @@ class VersionDeleteView(DeleteView):
         return self.post(request, *arg, **kwargs)
 
 
-class InstallView(ListView):
+class InstallView(DetailView):
     model = VersionApp
     template_name = 'install.html'
     context_object_name = 'version'
 
-    def get_object(self, queryset=None):
-        return VersionApp.objects.get(application=self.request.GET.get('pk'))
+    def get_context_data(self, **kwargs):
+        context = super(InstallView, self).get_context_data(**kwargs)
+        link_file = None
+        file = context['version'].file
+        if file and hasattr(file, 'url'):
+            link_file = self.request.build_absolute_uri(context['version'].file.url)
+        context['link_file'] = link_file
+        print(context)
+        return context
