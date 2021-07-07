@@ -1,7 +1,7 @@
 # Hot app
 Host app to install app
 
-Support install app ios (ipa file) via web
+Support install app ios (ipa file) via web as diawi, installonair, deploygate 
 
 Support install android app (apk file) via web
 
