@@ -58,15 +58,12 @@ class InstallView(DetailView):
     template_name = 'install.html'
     context_object_name = 'version'
 
-    # def get_queryset(self):
-    #     queryset = super(InstallView, self).get_queryset()
-    #     queryset = queryset.filter(pk=self.kwargs.get('pk'))
-    #     return queryset
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(InstallView, self).get_context_data(**kwargs)
-    #     context['application'] = self.kwargs.get('pk')
-    #     return context
-
-    # def get_object(self, queryset=None):
-    #     return VersionApp.objects.get(pk=self.request.GET.get('pk'))
+    def get_context_data(self, **kwargs):
+        context = super(InstallView, self).get_context_data(**kwargs)
+        link_file = None
+        file = context['version'].file
+        if file and hasattr(file, 'url'):
+            link_file = self.request.build_absolute_uri(context['version'].file.url)
+        context['link_file'] = link_file
+        print(context)
+        return context

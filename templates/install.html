@@ -3,12 +3,22 @@
     {% load crispy_forms_filters %}
     {% load qr_code %}
     <div align="center">
-        <h2>Install Application</h2>
-        <div>App name: {{ version.application.app_name }}</div>
+        <h2>Install App: {{version.application.app_name  }}</h2>
+        <div>App type: {{ version.application.get_type_display }}</div>
         <div>App version {{ version.version_name }}</div>
         <div>Build ID #{{ version.pk }}</div>
-    {% qr_from_text "itms-services://?action=download-manifest&url=https://ios.spaceshare.vn/media/files/spaceshare.plist" size="S" %}
+
+        {% if version.application.type == 0  %}
+            {% qr_from_text "itms-services://?action=download-manifest&url=https://ios.spaceshare.vn/media/files/spaceshare.plist" size=16 %}
+            <br>
+            <button class='mt-4 btn btn-primary' onclick="window.location.href='itms-services://?action=download-manifest&url=https://ios.spaceshare.vn/media/files/spaceshare.plist'">Install</button>
+        {% endif %}
+
+        {% if version.application.type == 1  %}
+            {% qr_from_text request.build_absolute_uri size=16 %}
+            <br>
+            <button class='mt-4 btn btn-primary' onclick="window.location.href='{{ link_file }}'">Install</button>
+        {% endif %}
     <br>
-    <button class='mt-4 btn btn-primary' onclick="window.location.href='itms-services://?action=download-manifest&url=https://ios.spaceshare.vn/media/files/spaceshare.plist'">Install</button>
     </div>
 {% endblock %}

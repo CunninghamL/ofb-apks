@@ -28,7 +28,6 @@ class CreateAppForm(forms.ModelForm):
                 bundle_name = ipa.get_app_name()
                 version = ipa.get_app_version()
                 type = TypeApp.IOS.value
-
             app, is_create = Application.objects.get_or_create(
                 bundle_id=bundle_id,
                 type=type,
@@ -39,6 +38,7 @@ class CreateAppForm(forms.ModelForm):
 
             self.instance.application = app
             self.instance.version_name = version
+            self.instance.file = file
             self.instance.save()
         except:
             pass
