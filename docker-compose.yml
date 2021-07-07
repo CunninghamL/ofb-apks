@@ -11,8 +11,6 @@ services:
       - additional-beta
     volumes:
       - media_volume:/webapp/media
-    ports:
-      - 8112:8111
     depends_on:
       - ha-postgres
   ha-nginx-beta:
