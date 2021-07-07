@@ -27,7 +27,7 @@
                 <td>{{ app.pk }}</td>
                 <td>{{ app.bundle_id }}</td>
                 <td>{{ app.app_name }}</td>
-                <td>{{ app.type }}</td>
+                <td>{{ app.get_type_display }}</td>
                 <td>{{ app.created_at | date:"d F Y" }}</td>
                 <td>
                     {#                    <a href="{{ file.file_ipa.url }}" class='btn btn-primary btn-sm' target="blank">Download File</a>#}

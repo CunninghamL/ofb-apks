@@ -1,6 +1,6 @@
 from django.db import models
 
-from apps.constants import TypeApp
+from apps.constants import TypeApp, TypeAppText
 
 
 class Application(models.Model):
@@ -16,6 +16,9 @@ class Application(models.Model):
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
+
+    def get_type_display(self):
+        return TypeAppText[self.type]
 
 
 class VersionApp(models.Model):
