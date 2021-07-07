@@ -20,8 +20,9 @@ from decouple import Config, RepositoryEnv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-ENV_FILE = os.path.join(BASE_DIR, '.env/.development')
+env = os.environ.get('ENVIRONMENT')
+project_environment = env if env else 'development'
+ENV_FILE = os.path.join(BASE_DIR, '.env/.{}'.format(project_environment))
 env_config = Config(RepositoryEnv(ENV_FILE))
 
 # SECURITY WARNING: keep the secret key used in production secret!

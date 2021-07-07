@@ -12,7 +12,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker-compose -f docker-compose.yml build'
+                sh 'docker-compose -f docker-compose-prod.yml build'
             }
         }
 
@@ -30,7 +30,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker-compose -f docker-compose.yml up -d'
+                sh 'docker-compose -f docker-compose-prod.yml up -d'
             }
         }
     }
