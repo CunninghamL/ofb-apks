@@ -4,12 +4,12 @@
     {% load crispy_forms_filters %}
 
 
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form | crispy }}
-        <button type="Submit" class='mt-4 btn btn-primary'>Upload Version</button>
-
-    </form>
+{#    <form method="POST" enctype="multipart/form-data">#}
+{#        {% csrf_token %}#}
+{#        {{ form | crispy }}#}
+{#        <button type="Submit" class='mt-4 btn btn-primary'>Upload Version</button>#}
+{##}
+{#    </form>#}
 
     <table class='table mb-0'>
         <thead>
@@ -25,13 +25,13 @@
         {% for version in versions_app %}
             <tr>
                 <td>{{ version.pk }}</td>
-                <td>{{ version.created_at | date:"d F Y" }}</td>
+                <td>{{ version.created_at | date:"d F Y H:m" }}</td>
                 <td>
                     <a href="{% url 'install' version.pk %}">
                         Install
                     </a>
                 </td>
-                 <td>{{ version.pk }}</td>
+                 <td>{{ version.version_name }}</td>
                 <td>
                     <form method="POST" action="{% url 'version-delete' version.pk %}">
                         {% csrf_token %}
