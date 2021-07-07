@@ -3,7 +3,7 @@ version: "3.7"
 services:
   ha-web:
     build: .
-    container_name: hot-app-web
+    container_name: hostapp-web
     command: >
       bash -c "./entry-point.sh && echo 'web app is up'"
     restart: always
@@ -16,7 +16,7 @@ services:
     depends_on:
       - ha-postgres
   ha-nginx-beta:
-    container_name: ha-nginx-beta
+    container_name: hostapp-nginx-beta
     build: ./nginx
     restart: unless-stopped
     depends_on:
@@ -27,7 +27,7 @@ services:
       - additional-beta
   ha-postgres:
     image: kartoza/postgis
-    container_name: hot-app-postgres
+    container_name: hostapp-postgres
     restart: always
     env_file:
       - .env/.development
