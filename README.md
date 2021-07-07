@@ -1,9 +1,9 @@
 # Hot app
 Host app to install app
 
-Support install app via https
+Support install app ios (ipa file) via web
 
-Support install 
+Support install android app (apk file) via web
 
 ## How to install app ios
 ###### 1. *Add udid of IOS device to develop apple store*
