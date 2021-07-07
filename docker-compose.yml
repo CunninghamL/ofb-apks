@@ -1,49 +1,42 @@
 version: "3.7"
 
 services:
-  fu-web:
-    build: .
-    container_name: file-upload-web
-    command: >
-      bash -c "./entry-point.sh && echo 'web app is up'"
-    restart: always
-    networks:
-      - file-upload
-    volumes:
-      - media_volume:/webapp/media
-    ports:
-      - 8112:8111
-    depends_on:
-      - fu-postgres
-  bo-nginx-beta:
-    container_name: bo-nginx-beta
-    build: ./nginx
-    restart: unless-stopped
-    depends_on:
-      - fu-web
-    ports:
-      - 8010:80
-    networks:
-      - file-upload
-  fu-postgres:
+#  ha-web:
+#    build: .
+#    container_name: hostapp-web
+#    command: >
+#      bash -c "./entry-point.sh && echo 'web app is up'"
+#    restart: always
+#    networks:
+#      - additional-beta
+#    volumes:
+#      - media_volume:/webapp/media
+#    depends_on:
+#      - ha-postgres
+#  ha-nginx-beta:
+#    container_name: hostapp-nginx-beta
+#    build: ./nginx
+#    restart: unless-stopped
+#    depends_on:
+#      - ha-web
+#    ports:
+#      - 8010:80
+#    networks:
+#      - additional-beta
+  ha-postgres:
     image: kartoza/postgis
-    container_name: file-upload-postgres
+    container_name: hostapp-postgres
     restart: always
-    environment:
-      POSTGRES_PASSWORD: file-upload
-      POSTGRES_USER: admin
-      POSTGRES_DB: file-upload
-      ALLOW_IP_RANGE: 0.0.0.0/0
-      DB_VENDOR: postgres
-      DESTROY_DATABASE_ON_RESTART: 'False'
+    env_file:
+      - .env/.development
     ports:
       - 5434:5432
     volumes:
       - pgdata:/var/lib/postgresql
     networks:
-      - file-upload
+      - additional-beta
 networks:
-  file-upload:
+  additional-beta:
     external: true
 volumes:
   pgdata:
