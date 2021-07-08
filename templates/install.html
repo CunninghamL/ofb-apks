@@ -5,8 +5,8 @@
     <div align="center">
         <h2>Install App: {{version.application.app_name  }}</h2>
         <div>App type: {{ version.application.get_type_display }}</div>
-        <div>App version {{ version.version_name }}</div>
-        <div>Build ID #{{ version.pk }}</div>
+        <div>App version: {{ version.version_name }}</div>
+        <div>Build ID: #{{ version.pk }}</div>
 
         {% if version.application.type == 0  %}
             {% qr_from_text request.build_absolute_uri size=16 %}
