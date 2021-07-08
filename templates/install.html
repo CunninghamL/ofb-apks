@@ -9,9 +9,9 @@
         <div>Build ID #{{ version.pk }}</div>
 
         {% if version.application.type == 0  %}
-            {% qr_from_text "itms-services://?action=download-manifest&url=https://ios.spaceshare.vn/media/files/spaceshare.plist" size=16 %}
+            {% qr_from_text request.build_absolute_uri size=16 %}
             <br>
-            <button class='mt-4 btn btn-primary' onclick="window.location.href='itms-services://?action=download-manifest&url=https://ios.spaceshare.vn/media/files/spaceshare.plist'">Install</button>
+            <button class='mt-4 btn btn-primary' onclick="window.location.href='itms-services://?action=download-manifest&url={{ request.scheme }}://{{ request.get_host }}{{ version.get_plist_url }}'">Install</button>
         {% endif %}
 
         {% if version.application.type == 1  %}

@@ -16,7 +16,7 @@
         {% for version in versions_app %}
             <tr>
                 <td>{{ version.pk }}</td>
-                <td>{{ version.created_at | date:"d F Y H:m" }}</td>
+                <td>{{ version.created_at | date:"d F Y H:i" }}</td>
                 <td>
                     <a href="{% url 'install' version.pk %}">
                         Install

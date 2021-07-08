@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import FormView, DetailView
 from django.views.generic import ListView, DeleteView
@@ -67,3 +68,20 @@ class InstallView(DetailView):
         context['link_file'] = link_file
         print(context)
         return context
+
+
+def ios_app_plist(request, version_id):
+    version_app = VersionApp.objects.filter(id=version_id).first()
+    if version_app:
+        f = open("templates/auto_file.plist", "r")
+        plist = f.read()
+        plist = plist.format(
+            request.build_absolute_uri(version_app.file.url),
+            version_app.application.bundle_id,
+            version_app.version_name,
+            version_app.application.app_name
+        )
+        return HttpResponse(
+            plist,
+            content_type='text/xml'
+        )

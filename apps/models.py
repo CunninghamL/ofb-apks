@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from apps.constants import TypeApp, TypeAppText
 
@@ -27,3 +28,6 @@ class VersionApp(models.Model):
     version_name = models.CharField(max_length=128, null=True, blank=True)
     file_plist = models.FileField(upload_to='file_plist/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_plist_url(self):
+        return reverse('ios_app_plist', kwargs={'version_id': self.pk})
