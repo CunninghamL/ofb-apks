@@ -19,7 +19,7 @@ class Application(models.Model):
         super().delete(*args, **kwargs)
 
     def get_type_display(self):
-        return TypeAppText[self.type]
+        return TypeAppText.get(self.type)
 
 
 class VersionApp(models.Model):
