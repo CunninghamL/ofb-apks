@@ -9,8 +9,8 @@ urlpatterns = [
     path('versions/<int:pk>', AppsVersionView.as_view(), name='versions'),
     path('version-delete/<int:pk>', VersionDeleteView.as_view(), name='version-delete'),
     path('install/<int:pk>', InstallView.as_view(), name='install'),
+    path('plist/<int:version_id>', ios_app_plist, name='ios_app_plist'),
 ]
-
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
