@@ -1,0 +1,12 @@
+{% extends 'base_auth.html' %}
+{% block content %}
+    {% load crispy_forms_filters %}
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <div align="center">
+            <button style="align-content: center" type="Submit" class='mt-4 btn btn-primary'>Login</button>
+        </div>
+        <input type="hidden" name="next" value="{{ next }}"/>
+    </form>
+{% endblock %}

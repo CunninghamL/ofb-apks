@@ -8,5 +8,5 @@ class TypeApp(Enum):
 
 TypeAppText = {
     0: 'IOS',
-    1: 'ANDROID',
+    1: 'Android',
 }
