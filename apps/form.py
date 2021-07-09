@@ -37,6 +37,7 @@ class CreateAppForm(forms.ModelForm):
                 app.save()
 
             self.instance.application = app
+            self.instance.name = bundle_name
             self.instance.version_name = version
             self.instance.file = file
             self.instance.save()

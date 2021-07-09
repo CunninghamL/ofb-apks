@@ -25,6 +25,7 @@ class Application(models.Model):
 class VersionApp(models.Model):
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
     file = models.FileField(upload_to='files/', null=True, blank=True)
+    name = models.CharField(max_length=128, null=True, blank=True)
     version_name = models.CharField(max_length=128, null=True, blank=True)
     file_plist = models.FileField(upload_to='file_plist/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

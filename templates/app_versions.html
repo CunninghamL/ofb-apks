@@ -6,6 +6,7 @@
         <thead>
         <tr>
             <th>id</th>
+            <th>Name</th>
             <th>Created at</th>
             <th>Download</th>
             <th>Version</th>
@@ -16,13 +17,20 @@
         {% for version in versions_app %}
             <tr>
                 <td>{{ version.pk }}</td>
-                <td>{{ version.created_at | date:"d/m/Y H:i" }}</td>
+                <td>
+                    {% if version.name %}
+                        {{ version.name }}
+                    {% else %}
+                        {{ versions_app.first.application }}
+                    {% endif %}
+                </td>
+                <td>{{ version.created_at | date:"d/m/Y H:i" }} {{ TIME_ZONE }}</td>
                 <td>
                     <a href="{% url 'install' version.pk %}">
                         Install
                     </a>
                 </td>
-                 <td>{{ version.version_name }}</td>
+                <td>{{ version.version_name }}</td>
                 <td>
                     <form method="POST" action="{% url 'version-delete' version.pk %}">
                         {% csrf_token %}

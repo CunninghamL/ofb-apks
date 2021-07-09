@@ -3,10 +3,11 @@
     {% load crispy_forms_filters %}
     {% load qr_code %}
     <div align="center">
-        <h2>Install App: {{version.application.app_name  }}</h2>
+        <h2>Install App: {{ version.application.app_name }}</h2>
         <div>App type: {{ version.application.get_type_display }}</div>
         <div>App version: {{ version.version_name }}</div>
         <div>Build ID: #{{ version.pk }}</div>
+        <div>Date: {{ version.created_at | date:"d/m/Y H:i" }} {{ TIME_ZONE }}</div>
 
         {% if version.application.type == 0  %}
             {% qr_from_text request.build_absolute_uri size=16 %}

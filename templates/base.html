@@ -1,4 +1,6 @@
 {% load static %}
+{% load tz %}
+{% get_current_timezone as TIME_ZONE %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,10 +30,10 @@
                onClick="document.getElementById('logoutform').submit()">
                 Logout
             </a>
-             <form id="logoutform" method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{% url 'home' %}"/>
-        </form>
+            <form id="logoutform" method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'home' %}"/>
+            </form>
         </ul>
     </div>
     </div>
