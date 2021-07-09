@@ -3,7 +3,14 @@
     {% load crispy_forms_filters %}
     {% load qr_code %}
     <div align="center">
-        <h2>Install App: {{ version.application.app_name }}</h2>
+        <h2>
+            Install App:
+            {% if version.name %}
+                {{ version.name }}
+            {% else %}
+                {{ version.application.app_name }}
+            {% endif %}
+        </h2>
         <div>App type: {{ version.application.get_type_display }}</div>
         <div>App version: {{ version.version_name }}</div>
         <div>Build ID: #{{ version.pk }}</div>

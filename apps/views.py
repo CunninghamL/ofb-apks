@@ -86,7 +86,7 @@ def ios_app_plist(request, version_id):
             request.build_absolute_uri(version_app.file.url),
             version_app.application.bundle_id,
             version_app.version_name,
-            version_app.application.app_name
+            version_app.name or version_app.application.app_name
         )
         return HttpResponse(
             plist,
