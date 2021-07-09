@@ -1,5 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import FormView, DetailView
 from django.views.generic import ListView, DeleteView
 
@@ -7,6 +9,7 @@ from .form import CreateAppForm
 from .models import *
 
 
+@method_decorator(login_required, name='dispatch')
 class AppsVersionView(ListView):
     model = VersionApp
     template_name = 'app_versions.html'
@@ -23,6 +26,7 @@ class AppsVersionView(ListView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class AppsView(ListView, FormView):
     model = Application
     form_class = CreateAppForm

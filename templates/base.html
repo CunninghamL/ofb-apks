@@ -23,6 +23,17 @@
                 </li>
             </ul>
         </div>
+        <ul class="navbar-nav">
+            <a class="nav-link active" href="#"
+               onClick="document.getElementById('logoutform').submit()">
+                Logout
+            </a>
+             <form id="logoutform" method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'home' %}"/>
+        </form>
+        </ul>
+    </div>
     </div>
 </nav>
 
