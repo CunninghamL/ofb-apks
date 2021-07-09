@@ -17,7 +17,7 @@ class AppsVersionView(ListView):
 
     def get_queryset(self):
         queryset = super(AppsVersionView, self).get_queryset()
-        queryset = queryset.filter(application=self.kwargs.get('pk'))
+        queryset = queryset.filter(application=self.kwargs.get('pk')).order_by('-created_at')
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -38,6 +38,9 @@ class AppsView(ListView, FormView):
         form = self.get_form()
         form.save()
         return super(AppsView, self).post(request, args, kwargs)
+
+    def get_queryset(self):
+        return Application.objects.all().order_by('-created_at')
 
 
 class AppsDeleteView(DeleteView):
