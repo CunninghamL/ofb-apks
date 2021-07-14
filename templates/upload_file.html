@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load crispy_forms_filters %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <button type="Submit" class='mt-4 btn btn-primary'>Upload</button>
+    </form>
+    <table class='table mb-0'>
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>app name</th>
+            <th>upload date</th>
+            <th>Download</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in files %}
+            <tr>
+                <td>{{ item.pk }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.created_at | date:"d/m/Y" }}</td>
+                <td>
+                    <a href="{{ item.file.url }}" class='btn btn-primary btn-sm' target="blank">Download File</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

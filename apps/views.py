@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import FormView, DetailView
 from django.views.generic import ListView, DeleteView
 
-from .form import CreateAppForm
+from .form import CreateAppForm, UploadFileForm
 from .models import *
 
 
@@ -92,3 +92,19 @@ def ios_app_plist(request, version_id):
             plist,
             content_type='text/xml'
         )
+
+
+class UploadFileView(FormView, ListView):
+    model = UploadFiles
+    form_class = UploadFileForm
+    template_name = 'upload_file.html'
+    context_object_name = 'files'
+    success_url = '/upload-file'
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        form.save()
+        return super().post(request, args, kwargs)
+
+    def get_queryset(self):
+        return UploadFiles.objects.all().order_by('-created_at')

@@ -32,3 +32,9 @@ class VersionApp(models.Model):
 
     def get_plist_url(self):
         return reverse('ios_app_plist', kwargs={'version_id': self.pk})
+
+
+class UploadFiles(models.Model):
+    file = models.FileField(upload_to='files-upload/', null=True, blank=True)
+    name = models.CharField(max_length=128, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)

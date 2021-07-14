@@ -3,7 +3,7 @@ from ipa import IPAFile
 from pyaxmlparser import APK
 
 from apps.constants import TypeApp
-from apps.models import Application, VersionApp
+from apps.models import Application, VersionApp, UploadFiles
 
 
 class CreateAppForm(forms.ModelForm):
@@ -40,6 +40,23 @@ class CreateAppForm(forms.ModelForm):
             self.instance.name = bundle_name
             self.instance.version_name = version
             self.instance.file = file
+            self.instance.save()
+        except:
+            pass
+
+
+class UploadFileForm(forms.ModelForm):
+    file = forms.FileField()
+
+    class Meta:
+        model = UploadFiles
+        fields = ['file']
+
+    def save(self, commit=True):
+        try:
+            file = self.files['file']
+            self.instance.file = file
+            self.instance.name = file.name
             self.instance.save()
         except:
             pass
