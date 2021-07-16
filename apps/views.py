@@ -77,7 +77,7 @@ class InstallView(DetailView):
         if file and hasattr(file, 'url'):
             link_file = self.request.build_absolute_uri(context['version'].file.url)
         context['link_file'] = link_file
-        print(context)
+        context['is_login'] = False
         return context
 
 
