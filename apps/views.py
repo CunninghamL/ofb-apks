@@ -108,3 +108,13 @@ class UploadFileView(FormView, ListView):
 
     def get_queryset(self):
         return UploadFiles.objects.all().order_by('-created_at')
+
+
+class UploadFileDeleteView(DeleteView):
+    model = UploadFiles
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('upload-file')
+
+    def get(self, request, *arg, **kwargs):
+        return self.post(request, *arg, **kwargs)
