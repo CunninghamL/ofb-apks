@@ -14,6 +14,7 @@
             <th>Name</th>
             <th>Upload date</th>
             <th>Download</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -24,6 +25,13 @@
                 <td>{{ item.created_at | date:"d/m/Y" }}</td>
                 <td>
                     <a href="{{ item.file.url }}" class='btn btn-primary btn-sm' target="blank">Download File</a>
+                </td>
+                <td>
+                    <form method="POST" action="{% url 'file-upload-delete' item.pk %}">
+                        {% csrf_token %}
+                        <button class='btn btn-danger btn-sm'>Delete</button>
+                    </form>
+
                 </td>
             </tr>
         {% endfor %}

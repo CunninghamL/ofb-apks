@@ -34,11 +34,12 @@ class VersionApp(models.Model):
     name = models.CharField(max_length=128, null=True, blank=True)
     version_name = models.CharField(max_length=128, null=True, blank=True)
     file_plist = models.FileField(upload_to='file_plist/', null=True, blank=True)
+    note = models.TextField(max_length=512, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_plist_url(self):
         return reverse('ios_app_plist', kwargs={'version_id': self.pk})
-    
+
     def delete(self, using=None, keep_parents=False):
         if os.path.isfile(self.file.url[1:]):
             os.remove(self.file.url[1:])
@@ -49,3 +50,8 @@ class UploadFiles(models.Model):
     file = models.FileField(upload_to='files-upload/', null=True, blank=True)
     name = models.CharField(max_length=128, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def delete(self, using=None, keep_parents=False):
+        if os.path.isfile(self.file.url[1:]):
+            os.remove(self.file.url[1:])
+        super().delete(using=None, keep_parents=False)

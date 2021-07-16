@@ -13,7 +13,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">MOR HOST APP</a>
+        <a class="navbar-brand" href="{% url 'home' %}">MOR HOST APP</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,23 +21,25 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">App</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'upload-file' %}">Upload file</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'upload-file' %}">Share file</a>
                 </li>
             </ul>
         </div>
-        <ul class="navbar-nav">
-            <a class="nav-link active" href="#"
-               onClick="document.getElementById('logoutform').submit()">
-                Logout
-            </a>
-            <form id="logoutform" method="POST" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{% url 'home' %}"/>
-            </form>
-        </ul>
+        {% if is_login is True or is_login is null %}
+            <ul class="navbar-nav">
+                <a class="nav-link active" href="#"
+                   onClick="document.getElementById('logoutform').submit()">
+                    Logout
+                </a>
+                <form id="logoutform" method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{% url 'home' %}"/>
+                </form>
+            </ul>
+        {% endif %}
     </div>
     </div>
 </nav>

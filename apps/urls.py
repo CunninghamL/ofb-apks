@@ -12,6 +12,7 @@ urlpatterns = [
     path('install/<int:pk>', InstallView.as_view(), name='install'),
     path('plist/<int:version_id>', ios_app_plist, name='ios_app_plist'),
     path('upload-file', UploadFileView.as_view(), name='upload-file'),
+    path('upload-file/<int:pk>', UploadFileDeleteView.as_view(), name='file-upload-delete'),
 
     path('accounts/', include('django.contrib.auth.urls')),
 ]

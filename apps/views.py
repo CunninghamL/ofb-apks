@@ -37,10 +37,14 @@ class AppsView(ListView, FormView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         form.save()
+        self.kwargs['instance'] = form.instance
         return super(AppsView, self).post(request, args, kwargs)
 
     def get_queryset(self):
-        return Application.objects.all().order_by('-created_at')
+        return Application.objects.all().order_by('-updated_at')
+
+    def get_success_url(self):
+        return reverse_lazy('versions', kwargs={'pk': self.kwargs['instance'].application.id})
 
 
 class AppsDeleteView(DeleteView):
@@ -73,7 +77,7 @@ class InstallView(DetailView):
         if file and hasattr(file, 'url'):
             link_file = self.request.build_absolute_uri(context['version'].file.url)
         context['link_file'] = link_file
-        print(context)
+        context['is_login'] = False
         return context
 
 
@@ -108,3 +112,13 @@ class UploadFileView(FormView, ListView):
 
     def get_queryset(self):
         return UploadFiles.objects.all().order_by('-created_at')
+
+
+class UploadFileDeleteView(DeleteView):
+    model = UploadFiles
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('upload-file')
+
+    def get(self, request, *arg, **kwargs):
+        return self.post(request, *arg, **kwargs)
