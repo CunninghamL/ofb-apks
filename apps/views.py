@@ -37,10 +37,14 @@ class AppsView(ListView, FormView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         form.save()
+        self.kwargs['instance'] = form.instance
         return super(AppsView, self).post(request, args, kwargs)
 
     def get_queryset(self):
         return Application.objects.all().order_by('-updated_at')
+
+    def get_success_url(self):
+        return reverse_lazy('versions', kwargs={'pk': self.kwargs['instance'].application.id})
 
 
 class AppsDeleteView(DeleteView):
