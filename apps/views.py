@@ -55,7 +55,7 @@ class VersionDeleteView(DeleteView):
     model = VersionApp
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('versions', kwargs={'pk': self.kwargs.get('pk')})
+        return reverse_lazy('versions', kwargs={'pk': self.object.application_id})
 
     def get(self, request, *arg, **kwargs):
         return self.post(request, *arg, **kwargs)
