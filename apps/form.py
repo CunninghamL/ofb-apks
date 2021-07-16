@@ -8,10 +8,11 @@ from apps.models import Application, VersionApp, UploadFiles
 
 class CreateAppForm(forms.ModelForm):
     file = forms.FileField()
+    note = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3}))
 
     class Meta:
         model = VersionApp
-        fields = ['file']
+        fields = ['file', 'note']
 
     def save(self, commit=True):
         try:
@@ -32,15 +33,16 @@ class CreateAppForm(forms.ModelForm):
                 bundle_id=bundle_id,
                 type=type,
             )
-            if is_create:
-                app.app_name = bundle_name
-                app.save()
+            app.app_name = bundle_name
+            app.save()
 
             self.instance.application = app
             self.instance.name = bundle_name
             self.instance.version_name = version
             self.instance.file = file
+            self.instance.note = self.data.get('note')
             self.instance.save()
+            return self.instance
         except:
             pass
 

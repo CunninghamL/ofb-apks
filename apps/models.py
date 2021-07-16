@@ -28,6 +28,7 @@ class VersionApp(models.Model):
     name = models.CharField(max_length=128, null=True, blank=True)
     version_name = models.CharField(max_length=128, null=True, blank=True)
     file_plist = models.FileField(upload_to='file_plist/', null=True, blank=True)
+    note = models.TextField(max_length=512, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_plist_url(self):

@@ -11,12 +11,16 @@
                 {{ version.application.app_name }}
             {% endif %}
         </h2>
-        <div>App type: {{ version.application.get_type_display }}</div>
-        <div>App version: {{ version.version_name }}</div>
-        <div>Build ID: #{{ version.pk }}</div>
+        <div>{{ version.application.get_type_display }} ( App version: {{ version.version_name }} - Build ID: #{{ version.pk }} )</div>
         <div>Date: {{ version.created_at | date:"d/m/Y H:i" }} {{ TIME_ZONE }}</div>
+        {% if version.note %}
+            <div>Note:</div>
+            <div>
+                <pre>{{ version.note }}</pre>
+            </div>
+        {% endif %}
 
-        {% if version.application.type == 0  %}
+        {% if version.application.type == 0 %}
             {% qr_from_text request.build_absolute_uri size=16 %}
             <br>
             <button class='mt-4 btn btn-primary' onclick="window.location.href='itms-services://?action=download-manifest&url={{ request.scheme }}://{{ request.get_host }}{{ version.get_plist_url }}'">Install</button>

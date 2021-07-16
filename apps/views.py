@@ -40,7 +40,7 @@ class AppsView(ListView, FormView):
         return super(AppsView, self).post(request, args, kwargs)
 
     def get_queryset(self):
-        return Application.objects.all().order_by('-created_at')
+        return Application.objects.all().order_by('-updated_at')
 
 
 class AppsDeleteView(DeleteView):
