@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 from django.urls import reverse
 
@@ -16,6 +18,10 @@ class Application(models.Model):
         return self.app_name
 
     def delete(self, *args, **kwargs):
+        versions = self.versionapp_set.all()
+        for version in versions:
+            if os.path.exists(version.file.url[1:]):
+                os.remove(version.file.url[1:])
         super().delete(*args, **kwargs)
 
     def get_type_display(self):
@@ -32,6 +38,11 @@ class VersionApp(models.Model):
 
     def get_plist_url(self):
         return reverse('ios_app_plist', kwargs={'version_id': self.pk})
+    
+    def delete(self, using=None, keep_parents=False):
+        if os.path.isfile(self.file.url[1:]):
+            os.remove(self.file.url[1:])
+        super().delete(using=None, keep_parents=False)
 
 
 class UploadFiles(models.Model):
