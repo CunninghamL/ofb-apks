@@ -33,6 +33,7 @@ class AppsView(ListView, FormView):
     template_name = 'app.html'
     context_object_name = 'apps'
     success_url = '/'
+    paginate_by = 20
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -41,10 +42,19 @@ class AppsView(ListView, FormView):
         return super(AppsView, self).post(request, args, kwargs)
 
     def get_queryset(self):
-        return Application.objects.all().order_by('-updated_at')
+        user = self.request.user
+        query_set = Application.objects.all().order_by('-updated_at')
+        if user.is_superuser is False:
+            query_set = query_set.filter(user_id=user.id)
+        return query_set
 
     def get_success_url(self):
         return reverse_lazy('versions', kwargs={'pk': self.kwargs['instance'].application.id})
+
+    def get_form_kwargs(self):
+        kwargs = super(AppsView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
 
 class AppsDeleteView(DeleteView):
@@ -104,6 +114,7 @@ class UploadFileView(FormView, ListView):
     template_name = 'upload_file.html'
     context_object_name = 'files'
     success_url = '/upload-file'
+    paginate_by = 20
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -111,7 +122,16 @@ class UploadFileView(FormView, ListView):
         return super().post(request, args, kwargs)
 
     def get_queryset(self):
-        return UploadFiles.objects.all().order_by('-created_at')
+        user = self.request.user
+        query_set = UploadFiles.objects.all().order_by('-created_at')
+        if user.is_superuser is False:
+            query_set = query_set.filter(user_id=user.id)
+        return query_set
+
+    def get_form_kwargs(self):
+        kwargs = super(UploadFileView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
 
 class UploadFileDeleteView(DeleteView):
@@ -122,3 +142,19 @@ class UploadFileDeleteView(DeleteView):
 
     def get(self, request, *arg, **kwargs):
         return self.post(request, *arg, **kwargs)
+
+
+class DownloadByQRCodeView(DetailView):
+    model = UploadFiles
+    template_name = 'upload_qrcode.html'
+    context_object_name = 'file_qrcode'
+
+    def get_context_data(self, **kwargs):
+        context = super(DownloadByQRCodeView, self).get_context_data(**kwargs)
+        link_file = None
+        file = context['file_qrcode'].file
+        if file and hasattr(file, 'url'):
+            link_file = self.request.build_absolute_uri(context['file_qrcode'].file.url)
+        context['link_file'] = link_file
+        context['is_login'] = False
+        return context

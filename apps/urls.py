@@ -13,6 +13,7 @@ urlpatterns = [
     path('plist/<int:version_id>', ios_app_plist, name='ios_app_plist'),
     path('upload-file', UploadFileView.as_view(), name='upload-file'),
     path('upload-file/<int:pk>', UploadFileDeleteView.as_view(), name='file-upload-delete'),
+    path('upload-file-qrcode/<int:pk>', DownloadByQRCodeView.as_view(), name='file-upload-qrcode'),
 
     path('accounts/', include('django.contrib.auth.urls')),
 ]
