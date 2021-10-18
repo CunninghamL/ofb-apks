@@ -1,3 +1,5 @@
+from builtins import super
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -42,8 +44,11 @@ class AppsView(ListView, FormView):
         return super(AppsView, self).post(request, args, kwargs)
 
     def get_queryset(self):
+        key = self.request.GET.get('key')
         user = self.request.user
         query_set = Application.objects.all().order_by('-updated_at')
+        if key:
+            query_set = query_set.filter(app_name__icontains=key)
         if user.is_superuser is False:
             query_set = query_set.filter(user_id=user.id)
         return query_set
@@ -55,6 +60,11 @@ class AppsView(ListView, FormView):
         kwargs = super(AppsView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(AppsView, self).get_context_data(**kwargs)
+        context['key_search'] = self.request.GET.get('key', '')
+        return context
 
 
 class AppsDeleteView(DeleteView):
@@ -122,8 +132,11 @@ class UploadFileView(FormView, ListView):
         return super().post(request, args, kwargs)
 
     def get_queryset(self):
+        key = self.request.GET.get('key')
         user = self.request.user
         query_set = UploadFiles.objects.all().order_by('-created_at')
+        if key:
+            query_set = query_set.filter(name__icontains=key)
         if user.is_superuser is False:
             query_set = query_set.filter(user_id=user.id)
         return query_set
@@ -132,6 +145,11 @@ class UploadFileView(FormView, ListView):
         kwargs = super(UploadFileView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(UploadFileView, self).get_context_data(**kwargs)
+        context['key_search'] = self.request.GET.get('key', '')
+        return context
 
 
 class UploadFileDeleteView(DeleteView):
