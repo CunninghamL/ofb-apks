@@ -1,5 +1,6 @@
 import os
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
@@ -11,6 +12,7 @@ class Application(models.Model):
     app_name = models.CharField(max_length=512, null=True, blank=True)
     type = models.IntegerField(choices=[(item.value, item.value) for item in TypeApp], default=TypeApp.IOS.value)
     description = models.CharField(max_length=512, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -49,6 +51,7 @@ class VersionApp(models.Model):
 class UploadFiles(models.Model):
     file = models.FileField(upload_to='files-upload/', null=True, blank=True)
     name = models.CharField(max_length=128, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def delete(self, using=None, keep_parents=False):

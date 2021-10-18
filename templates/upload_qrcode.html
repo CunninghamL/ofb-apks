@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load crispy_forms_filters %}
+    {% load qr_code %}
+    <div align="center">
+        <h2>
+            Download:
+            {% if file_qrcode.name %}
+                {{ file_qrcode.name }}
+            {% else %}
+                {{ '' }}
+            {% endif %}
+        </h2>
+        {% qr_from_text request.build_absolute_uri size=16 %}
+        <br>
+        <button class='mt-4 btn btn-primary' onclick="window.location.href='{{ link_file }}'">Download</button>
+    <br>
+    </div>
+{% endblock %}

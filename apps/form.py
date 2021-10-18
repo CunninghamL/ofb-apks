@@ -14,7 +14,12 @@ class CreateAppForm(forms.ModelForm):
         model = VersionApp
         fields = ['file', 'note']
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(CreateAppForm, self).__init__(*args, **kwargs)
+
     def save(self, commit=True):
+        user = self.user
         try:
             file = self.files['file']
             if file.content_type == 'application/vnd.android.package-archive':
@@ -32,6 +37,7 @@ class CreateAppForm(forms.ModelForm):
             app, is_create = Application.objects.get_or_create(
                 bundle_id=bundle_id,
                 type=type,
+                user_id=user.id
             )
             app.app_name = bundle_name
             app.save()
@@ -54,11 +60,17 @@ class UploadFileForm(forms.ModelForm):
         model = UploadFiles
         fields = ['file']
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(UploadFileForm, self).__init__(*args, **kwargs)
+
     def save(self, commit=True):
+        user = self.user
         try:
             file = self.files['file']
             self.instance.file = file
             self.instance.name = file.name
+            self.instance.user_id = user.id
             self.instance.save()
         except:
             pass
