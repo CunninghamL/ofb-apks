@@ -35,7 +35,7 @@ class AppsView(ListView, FormView):
     template_name = 'app.html'
     context_object_name = 'apps'
     success_url = '/'
-    paginate_by = 20
+    paginate_by = 10
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -124,7 +124,7 @@ class UploadFileView(FormView, ListView):
     template_name = 'upload_file.html'
     context_object_name = 'files'
     success_url = '/upload-file'
-    paginate_by = 20
+    paginate_by = 10
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
