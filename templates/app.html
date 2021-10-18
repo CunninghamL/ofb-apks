@@ -8,7 +8,7 @@
         {{ form | crispy }}
         <button type="Submit" class='mt-4 btn btn-primary'>Upload</button>
     </form>
-    <form action="{% url 'upload-file' %}" method="get">
+    <form action="{% url 'home' %}" method="get">
         <div class="justify-content-end d-flex">
             <input value="{{ key_search }}" class="form-control mt-3 mb-3" name="key" type="text"
                    placeholder="Search..." style="width: 200px">
